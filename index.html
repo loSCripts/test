@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Sport - Statistiques Sportives</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .screen { display: none; }
+        .screen.active { display: block; }
+        body { font-family: 'Lexend', sans-serif; }
+        .bg-primary { background-color: #34D399; }
+        .text-primary { color: #34D399; }
+        .bg-secondary { background-color: #60A5FA; }
+        .text-secondary { color: #60A5FA; }
+        .bg-tertiary { background-color: #FBBF24; }
+        .text-tertiary { color: #FBBF24; }
+        .border-primary { border-color: #34D399; }
+        .hover\:border-primary:hover { border-color: #34D399; }
+        .focus\:ring-primary:focus { --tw-ring-color: #34D399; }
+        .hover\:bg-primary\/10:hover { background-color: rgba(52, 211, 153, 0.1); }
+        .bg-primary\/10 { background-color: rgba(52, 211, 153, 0.1); }
+        .bg-secondary\/10 { background-color: rgba(96, 165, 250, 0.1); }
+        .bg-tertiary\/10 { background-color: rgba(251, 191, 36, 0.1); }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+<!-- ÉCRAN 1: SÉLECTION DU SPORT -->
+<div id="sport-screen" class="screen active">
+    <div class="max-w-7xl mx-auto">
+        <header class="flex items-center justify-between px-6 py-4 bg-white border-b sticky top-0 z-10">
+            <h2 class="text-xl font-bold">Open Sport</h2>
+            <div class="flex items-center gap-4">
+                <input type="search" placeholder="Rechercher un sport..." class="hidden sm:block px-4 py-2 bg-gray-100 rounded-lg">
+                <button class="p-2 hover:bg-gray-100 rounded-full">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button class="p-2 hover:bg-gray-100 rounded-full">
+                    <span class="material-symbols-outlined">settings</span>
+                </button>
+                <div class="w-10 h-10 bg-orange-200 rounded-full"></div>
+            </div>
+        </header>
+
+        <main class="px-6 py-8">
+            <div class="mb-8">
+                <h1 class="text-4xl font-black mb-2">Choisissez votre sport</h1>
+                <p class="text-gray-600">Sélectionnez un sport pour consulter les statistiques détaillées.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div onclick="selectSport('football')" class="cursor-pointer group">
+                    <div class="aspect-square bg-gradient-to-br from-green-600 to-green-800 rounded-xl mb-3 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
+                        <span class="text-white text-6xl">⚽</span>
+                    </div>
+                    <p class="font-medium text-lg">Football</p>
+                    <p class="text-sm text-gray-600">Ligue 1, Premier League...</p>
+                </div>
+
+                <div onclick="selectSport('basketball')" class="cursor-pointer group">
+                    <div class="aspect-square bg-gradient-to-br from-orange-600 to-orange-800 rounded-xl mb-3 flex items-center justify-center transition-transform group-hover:scale-105">
+                        <span class="text-white text-6xl">🏀</span>
+                    </div>
+                    <p class="font-medium text-lg">Basketball</p>
+                    <p class="text-sm text-gray-600">NBA, EuroLeague...</p>
+                </div>
+
+                <div onclick="selectSport('hockey')" class="cursor-pointer group">
+                    <div class="aspect-square bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl mb-3 flex items-center justify-center transition-transform group-hover:scale-105">
+                        <span class="text-white text-6xl">🏒</span>
+                    </div>
+                    <p class="font-medium text-lg">Hockey</p>
+                    <p class="text-sm text-gray-600">NHL, KHL...</p>
+                </div>
+
+                <div class="cursor-pointer group opacity-50">
+                    <div class="aspect-square bg-gradient-to-br from-yellow-600 to-yellow-800 rounded-xl mb-3 flex items-center justify-center transition-transform group-hover:scale-105">
+                        <span class="text-white text-6xl">🎾</span>
+                    </div>
+                    <p class="font-medium text-lg">Tennis</p>
+                    <p class="text-sm text-gray-600">À venir...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- ÉCRAN 2: SÉLECTION DU PAYS -->
+<div id="country-screen" class="screen">
+    <header class="sticky top-0 bg-white border-b z-10">
+        <nav class="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
+            <div class="flex items-center gap-4">
+                <button onclick="showSportScreen()" class="p-2 rounded-full hover:bg-gray-100">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </button>
+                <h2 class="text-lg font-bold">Open Sport</h2>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-orange-200 rounded-full"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8">
+        <div class="flex items-center gap-2 mb-6 text-sm">
+            <a href="#" onclick="showSportScreen()" class="text-gray-500 hover:text-primary">Accueil</a>
+            <span class="text-gray-500">/</span>
+            <span class="text-gray-900 font-medium" id="sport-breadcrumb">Football</span>
+            <span class="text-gray-500">/</span>
+            <span class="text-gray-900 font-medium">Pays</span>
+        </div>
+
+        <div class="mb-8">
+            <h1 class="text-4xl font-black mb-2"><span id="sport-title">Football</span>: Choisissez un pays</h1>
+            <p class="text-gray-600">Sélectionnez un pays pour voir les ligues et les statistiques disponibles.</p>
+        </div>
+
+        <div class="mb-8">
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">search</span>
+                <input type="search" id="country-search" placeholder="Rechercher un pays..." class="w-full pl-12 pr-4 py-3 bg-white border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="countries-grid">
+            <p class="col-span-full text-center text-gray-500 py-8">Chargement...</p>
+        </div>
+    </main>
+</div>
+
+<!-- ÉCRAN 3: SÉLECTION DE LA LIGUE -->
+<div id="league-screen" class="screen">
+    <header class="flex items-center justify-between px-4 py-3 bg-white border-b sticky top-0 z-10">
+        <div class="flex items-center gap-4">
+            <button onclick="showCountryScreen()" class="p-2 rounded-full hover:bg-gray-100">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <div>
+                <h1 class="text-lg font-bold">Ligues</h1>
+                <p class="text-sm text-gray-500" id="league-subtitle">Football - France</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button class="p-2 rounded-full hover:bg-gray-100">
+                <span class="material-symbols-outlined">search</span>
+            </button>
+            <div class="w-10 h-10 bg-orange-200 rounded-full"></div>
+        </div>
+    </header>
+
+    <main class="px-4 py-5 max-w-7xl mx-auto">
+        <div id="leagues-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            <p class="col-span-full text-center text-gray-500 py-8">Chargement...</p>
+        </div>
+    </main>
+</div>
+
+<!-- ÉCRAN 4: STATISTIQUES -->
+<div id="stats-screen" class="screen pb-20">
+    <header class="flex items-center justify-between px-4 py-3 bg-white border-b sticky top-0 z-20">
+        <button onclick="showLeagueScreen()" class="p-2 rounded-full hover:bg-gray-100">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <div class="text-center">
+            <h1 class="text-lg font-bold" id="stats-sport">Football</h1>
+            <p class="text-xs text-gray-500" id="stats-subtitle">France - Ligue 1</p>
+        </div>
+        <button class="p-2 rounded-full hover:bg-gray-100">
+            <span class="material-symbols-outlined">search</span>
+        </button>
+    </header>
+
+    <main class="flex flex-1 flex-col">
+        <!-- Cartes statistiques -->
+        <div class="grid grid-cols-3 gap-2 p-2">
+            <div class="flex flex-col items-center justify-center gap-2 rounded-xl p-3 bg-primary/10 text-center">
+                <span class="material-symbols-outlined text-2xl text-primary">sports_soccer</span>
+                <p class="text-xs font-medium">Buts</p>
+                <p class="text-xl font-bold text-primary" id="total-goals">-</p>
+            </div>
+            <div class="flex flex-col items-center justify-center gap-2 rounded-xl p-3 bg-secondary/10 text-center">
+                <span class="material-symbols-outlined text-2xl text-secondary">emoji_events</span>
+                <p class="text-xs font-medium">Leader</p>
+                <p class="text-sm font-bold text-secondary truncate" id="top-team">-</p>
+            </div>
+            <div class="flex flex-col items-center justify-center gap-2 rounded-xl p-3 bg-tertiary/10 text-center">
+                <span class="material-symbols-outlined text-2xl text-tertiary">bolt</span>
+                <p class="text-xs font-medium">Matchs</p>
+                <p class="text-xl font-bold text-tertiary" id="total-matches">-</p>
+            </div>
+        </div>
+
+        <!-- Classement -->
+        <div class="p-2 space-y-4">
+            <div class="flex flex-col gap-3 rounded-xl bg-white p-4 shadow-sm">
+                <h3 class="text-base font-bold">Classement</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="py-2 pr-2 font-semibold text-gray-500">#</th>
+                                <th class="py-2 px-2 font-semibold text-gray-500">Équipe</th>
+                                <th class="py-2 px-1 text-center font-semibold text-gray-500">J</th>
+                                <th class="py-2 px-1 text-center font-semibold text-gray-500">V</th>
+                                <th class="py-2 px-1 text-center font-semibold text-gray-500">DB</th>
+                                <th class="py-2 pl-2 text-right font-semibold text-gray-500">Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody id="standings-tbody">
+                            <tr><td colspan="6" class="py-4 text-center text-gray-500">Chargement...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="w-full text-center text-primary text-sm font-semibold p-2 rounded-lg hover:bg-primary/10">Voir le classement complet</button>
+            </div>
+
+            <!-- Derniers résultats -->
+            <div class="grid grid-cols-1 gap-4">
+                <div class="flex flex-col gap-3 rounded-xl bg-white p-4 shadow-sm">
+                    <h3 class="text-base font-bold">Derniers Résultats</h3>
+                    <ul class="space-y-2.5 text-sm" id="recent-fixtures-list">
+                        <li class="text-center text-gray-500 py-2">Chargement...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Navigation inférieure -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t px-4 z-20">
+        <div class="flex justify-around items-center h-16 max-w-md mx-auto">
+            <a class="flex flex-col items-center gap-1 text-primary" href="#">
+                <span class="material-symbols-outlined text-xl">query_stats</span>
+                <span class="text-xs font-semibold">Stats</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-gray-500" href="#">
+                <span class="material-symbols-outlined text-xl">compare_arrows</span>
+                <span class="text-xs">Comparer</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-gray-500" href="#" onclick="showLeagueScreen()">
+                <span class="material-symbols-outlined text-xl">emoji_events</span>
+                <span class="text-xs">Ligues</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-gray-500" href="#">
+                <span class="material-symbols-outlined text-xl">person</span>
+                <span class="text-xs">Profil</span>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<script>
+// Configuration API SportDB.dev
+const API_KEY = 'EScvoEnhz3EljQ00hynWkJCrFboh3V5PmQTkxSqL';
+const API_BASE = 'https://api.sportdb.dev/api';
+
+// Variables globales
+let selectedSport = null;
+let selectedCountry = null;
+let selectedCountrySlug = null;
+let selectedCompetition = null;
+let selectedCompetitionSlug = null;
+let selectedSeason = null;
+let allCountries = [];
+
+// Navigation entre écrans
+function showScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
+}
+
+function showSportScreen() {
+    showScreen('sport-screen');
+}
+
+function showCountryScreen() {
+    showScreen('country-screen');
+}
+
+function showLeagueScreen() {
+    showScreen('league-screen');
+}
+
+function showStatsScreen() {
+    showScreen('stats-screen');
+}
+
+// Appels API avec gestion d'erreur
+async function apiCall(endpoint) {
+    try {
+        console.log('API Call:', `${API_BASE}${endpoint}`);
+        const response = await fetch(`${API_BASE}${endpoint}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Accept': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        console.log('API Response:', endpoint, data);
+        return data;
+    } catch (error) {
+        console.error('Erreur API:', error);
+        alert(`Erreur de connexion à l'API:\n${error.message}\n\nVérifiez:\n1. Votre clé API\n2. Votre connexion internet\n3. Le quota API (1000 requêtes gratuites)`);
+        return null;
+    }
+}
+
+// Drapeaux des pays
+const countryFlags = {
+    'France': '🇫🇷', 'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'Spain': '🇪🇸', 'Germany': '🇩🇪',
+    'Italy': '🇮🇹', 'Portugal': '🇵🇹', 'Netherlands': '🇳🇱', 'Belgium': '🇧🇪',
+    'Brazil': '🇧🇷', 'Argentina': '🇦🇷', 'Mexico': '🇲🇽', 'USA': '🇺🇸',
+    'Canada': '🇨🇦', 'Japan': '🇯🇵', 'South Korea': '🇰🇷', 'Australia': '🇦🇺',
+    'Turkey': '🇹🇷', 'Russia': '🇷🇺', 'Poland': '🇵🇱', 'Switzerland': '🇨🇭',
+    'Austria': '🇦🇹', 'Denmark': '🇩🇰', 'Sweden': '🇸🇪', 'Norway': '🇳🇴'
+};
+
+// Sélectionner un sport
+async function selectSport(sport) {
+    selectedSport = sport;
+    const sportName = sport === 'football' ? 'Football' : sport === 'basketball' ? 'Basketball' : 'Hockey';
+    
+    document.getElementById('sport-breadcrumb').textContent = sportName;
+    document.getElementById('sport-title').textContent = sportName;
+    
+    showCountryScreen();
+    loadCountries(sport);
+}
+
+// Charger les pays pour un sport
+async function loadCountries(sport) {
+    const grid = document.getElementById('countries-grid');
+    grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-8">Chargement des pays...</p>';
+    
+    const data = await apiCall(`/${sport}/countries`);
+    
+    if (!data || !data.data) {
+        grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-8">Aucun pays disponible</p>';
+        return;
+    }
+    
+    allCountries = data.data;
+    displayCountries(allCountries);
+    
+    // Recherche de pays
+    document.getElementById('country-search').oninput = (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = allCountries.filter(c => 
+            c.name.toLowerCase().includes(query)
+        );
+        displayCountries(filtered);
+    };
+}
+
+// Afficher les pays
+function displayCountries(countries) {
+    const grid = document.getElementById('countries-grid');
+    
+    if (countries.length === 0) {
+        grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-8">Aucun pays trouvé</p>';
+        return;
+    }
+    
+    grid.innerHTML = countries.map(country => `
+        <div onclick="selectCountry('${country.name}', '${country.slug}')" class="cursor-pointer flex flex-col gap-3 rounded-xl bg-white p-3 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
+            <div class="aspect-video bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center text-5xl">
+                ${countryFlags[country.name] || '🌍'}
+            </div>
+            <div>
+                <p class="font-bold">${country.name}</p>
+                <p class="text-sm text-gray-500">${country.competitions_count || 0} compétition(s)</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Sélectionner un pays et charger ses compétitions
+async function selectCountry(countryName, countrySlug) {
+    selectedCountry = countryName;
+    selectedCountrySlug = countrySlug;
+    
+    const sportName = selectedSport === 'football' ? 'Football' : selectedSport === 'basketball' ? 'Basketball' : 'Hockey';
+    document.getElementById('league-subtitle').textContent = `${sportName} - ${countryName}`;
+    
+    showLeagueScreen();
+    
+    const grid = document.getElementById('leagues-grid');
+    grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-8">Chargement des ligues...</p>';
+    
+    const data = await apiCall(`/${selectedSport}/${countrySlug}`);
+    
+    if (!data || !data.data || !data.data.competitions) {
+        grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-8">Aucune compétition disponible</p>';
+        return;
+    }
+    
+    const competitions = data.data.competitions;
+    
+    grid.innerHTML = competitions.map(comp => `
+        <div onclick="selectCompetition('${comp.name.replace(/'/g, "\\'")}', '${comp.slug}', '${comp.current_season || comp.latest_season || '2023-2024'}')" 
+             class="flex items-center gap-4 rounded-xl p-3 border border-gray-200 bg-white cursor-pointer hover:border-primary transition-colors">
+            <div class="bg-gray-100 p-2 rounded-lg">
+                <span class="text-2xl">🏆</span>
+            </div>
+            <div class="flex-1">
+                <p class="font-semibold">${comp.name}</p>
+                <p class="text-xs text-gray-500">Saison ${comp.current_season || comp.latest_season || '2023-2024'}</p>
+            </div>
+            <span class="material-symbols-outlined text-gray-400">chevron_right</span>
+        </div>
+    `).join('');
+}
+
+// Sélectionner une compétition et afficher les stats
+async function selectCompetition(compName, compSlug, season) {
+    selectedCompetition = compName;
+    selectedCompetitionSlug = compSlug;
+    selectedSeason = season;
+    
+    const sportName = selectedSport === 'football' ? 'Football' : selectedSport === 'basketball' ? 'Basketball' : 'Hockey';
+    document.getElementById('stats-sport').textContent = sportName;
+    document.getElementById('stats-subtitle').textContent = `${selectedCountry} - ${compName}`;
+    
+    showStatsScreen();
+    
+    // Réinitialiser les affichages
+    document.getElementById('total-goals').textContent = '-';
+    document.getElementById('top-team').textContent = '-';
+    document.getElementById('total-matches').textContent = '-';
+    document.getElementById('standings-tbody').innerHTML = '<tr><td colspan="6" class="py-4 text-center text-gray-500">Chargement...</td></tr>';
+    document.getElementById('recent-fixtures-list').innerHTML = '<li class="text-center text-gray-500 py-2">Chargement...</li>';
+    
+    // Charger les données
+    loadStandings();
+    loadFixtures();
+}
+
+// Charger le classement
+async function loadStandings() {
+    const data = await apiCall(`/${selectedSport}/${selectedCountrySlug}/${selectedCompetitionSlug}/${selectedSeason}/standings`);
+    const tbody = document.getElementById('standings-tbody');
+    
+    if (!data || !data.data || !data.data.standings || data.data.standings.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-gray-500">Classement non disponible</td></tr>';
+        return;
+    }
+    
+    const standings = data.data.standings.slice(0, 10);
+    
+    // Afficher le leader
+    if (standings[0]) {
+        document.getElementById('top-team').textContent = standings[0].team_name.split(' ').pop();
+    }
+    
+    tbody.innerHTML = standings.map(team => `
+        <tr class="border-b border-gray-200">
+            <td class="py-2.5 pr-2 font-medium">${team.position || '-'}</td>
+            <td class="py-2.5 px-2">
+                <span class="font-medium">${team.team_name}</span>
+            </td>
+            <td class="py-2.5 px-1 text-center text-gray-500">${team.matches_played || 0}</td>
+            <td class="py-2.5 px-1 text-center text-gray-500">${team.matches_won || 0}</td>
+            <td class="py-2.5 px-1 text-center text-gray-500">${team.goal_difference >= 0 ? '+' : ''}${team.goal_difference || 0}</td>
+            <td class="py-2.5 pl-2 text-right font-bold">${team.points || 0}</td>
+        </tr>
+    `).join('');
+}
+
+// Charger les matchs
+async function loadFixtures() {
+    const data = await apiCall(`/${selectedSport}/${selectedCountrySlug}/${selectedCompetitionSlug}/${selectedSeason}/fixtures`);
+    const list = document.getElementById('recent-fixtures-list');
+    
+    if (!data || !data.data || !data.data.fixtures || data.data.fixtures.length === 0) {
+        list.innerHTML = '<li class="text-center text-gray-500 py-2">Aucun match disponible</li>';
+        return;
+    }
+    
+    const fixtures = data.data.fixtures
+        .filter(f => f.status === 'finished')
+        .slice(-10)
+        .reverse();
+    
+    // Calculer les stats
+    let totalGoals = 0;
+    fixtures.forEach(f => {
+        if (f.home_team_score !== null && f.away_team_score !== null) {
+            totalGoals += (f.home_team_score + f.away_team_score);
+        }
+    });
+    
+    document.getElementById('total-goals').textContent = totalGoals;
+    document.getElementById('total-matches').textContent = fixtures.length;
+    
+    list.innerHTML = fixtures.slice(0, 5).map(match => `
+        <li class="flex items-center justify-between py-2 border-b border-gray-100">
+            <div class="flex-1">
+                <div class="flex items-center justify-between text-xs mb-1">
+                    <span class="font-medium">${match.home_team_name}</span>
+                    <span class="font-bold mx-2">${match.home_team_score !== null ? match.home_team_score : '-'}</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="font-medium">${match.away_team_name}</span>
+                    <span class="font-bold mx-2">${match.away_team_score !== null ? match.away_team_score : '-'}</span>
+                </div>
+            </div>
+        </li>
+    `).join('');
+}
+
+// Initialisation
+showSportScreen();
+</script>
+
+</body>
+</html>
