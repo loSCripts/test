@@ -294,7 +294,7 @@ function showStatsScreen() {
 // Appels API avec gestion d'erreur
 async function apiCall(endpoint) {
     try {
-        console.log('API Call:', `${API_BASE}${endpoint}`);
+        console.log('🔍 API Call:', `${API_BASE}${endpoint}`);
         const response = await fetch(`${API_BASE}${endpoint}`, {
             method: 'GET',
             headers: {
@@ -303,16 +303,20 @@ async function apiCall(endpoint) {
             }
         });
         
+        console.log('📡 Response status:', response.status, response.statusText);
+        
         if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            const errorText = await response.text();
+            console.error('❌ Error response:', errorText);
+            throw new Error(`HTTP ${response.status}: ${response.statusText}\n${errorText}`);
         }
         
         const data = await response.json();
-        console.log('API Response:', endpoint, data);
+        console.log('✅ API Response:', endpoint, data);
         return data;
     } catch (error) {
-        console.error('Erreur API:', error);
-        alert(`Erreur de connexion à l'API:\n${error.message}\n\nVérifiez:\n1. Votre clé API\n2. Votre connexion internet\n3. Le quota API (1000 requêtes gratuites)`);
+        console.error('❌ Erreur API complète:', error);
+        alert(`Erreur de connexion à l'API:\n${error.message}\n\nVérifiez:\n1. Votre clé API est valide\n2. L'endpoint existe: ${endpoint}\n3. Votre connexion internet`);
         return null;
     }
 }
@@ -346,12 +350,31 @@ async function loadCountries(sport) {
     
     const data = await apiCall(`/${sport}/countries`);
     
-    if (!data || !data.data) {
-        grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-8">Aucun pays disponible</p>';
+    console.log('Countries data structure:', data);
+    
+    if (!data) {
+        grid.innerHTML = '<p class="col-span-full text-center text-red-500 py-8">❌ Erreur de connexion à l\'API</p>';
         return;
     }
     
-    allCountries = data.data;
+    // Tester différentes structures possibles
+    let countries = null;
+    if (data.data && Array.isArray(data.data)) {
+        countries = data.data;
+    } else if (Array.isArray(data)) {
+        countries = data;
+    } else if (data.countries && Array.isArray(data.countries)) {
+        countries = data.countries;
+    }
+    
+    console.log('Extracted countries:', countries);
+    
+    if (!countries || countries.length === 0) {
+        grid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-8">Aucun pays disponible.<br><small>Structure reçue: ${JSON.stringify(Object.keys(data || {}))}</small></p>`;
+        return;
+    }
+    
+    allCountries = countries;
     displayCountries(allCountries);
     
     // Recherche de pays
